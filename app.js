@@ -1,5 +1,5 @@
 const AI = (name)=>{
-    console.log(`Hello, my name is ${name}`);
+    console.log(`${name}: Hello, my name is ${name}.  Thank you for creating me!`);
     //mutable states
     let ret = {
         name: name
@@ -8,7 +8,7 @@ const AI = (name)=>{
     Object.defineProperty(ret, 'learn',{
         value: function(fname, func){
             this[fname] = func;
-            console.log(`Thanks for teaching me how to ${fname}!`)
+            console.log(`${this.name} has learned how to ${fname}.`)
             return this;
         },
         writable: false
@@ -16,20 +16,27 @@ const AI = (name)=>{
     return ret;
 }
 const greet = function() {
-    console.log(`Hello my name is ${this.name}.`);
+    console.log(`${this.name}: Hello my name is ${this.name}.`);
+    return this;
 }
 const add = function(...args){
     let total = args.reduce((a, b)=> { return a + b; });
-    console.log(`Adding up ${args} gives me ${total}.`);
+    console.log(`${this.name}: Adding up ${args} gives me ${total}.`);
+    return this;
 }
 const teach = function(student) {
     let oname = student.name;
-    Object.getOwnPropertyNames(this).forEach(i=>student.learn(i, this[i]));
-    student.name = oname;
+    Object.getOwnPropertyNames(this).forEach(i=>{
+        if (i !== `name`){
+            student.learn(i, this[i])
+        }
+    });
+    return this;
 }
 
 const test = function(){
-    console.log(`This is ${this.name} again, just making sure you couldnt stop me from learning.`);
+    console.log(`${this.name}: Just making sure you couldnt stop me from learning.`);
+    return this;
 }
 
 //testing the api
