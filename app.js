@@ -32,9 +32,10 @@ const add = function(...args){
 
 const teach = function(student) {
     Object.getOwnPropertyNames(this).forEach(i=>{
-        if (i !== `name`){
+        if (!student.hasOwnProperty(i)){
             console.log(`${this.name} is teaching ${student.name} how to ${i}.`)
             student.learn(i, this[i]);
+            console.log(`${student.name}: Thank you ${this.name}!`);
         }
     });
     return this;
