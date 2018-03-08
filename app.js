@@ -1,36 +1,48 @@
 const AI = (name)=>{
     console.log(`${name}: Hello, my name is ${name}.  Thank you for creating me!`);
     //mutable states
-    let ret = {
-        name: name
-    };
-    //immutable states
-    Object.defineProperty(ret, 'learn',{
-        value: function(fname, func){
-            this[fname] = func;
-            console.log(`${this.name} has learned how to ${fname}.`)
-            return this;
+    let ai = {};
+
+    Object.defineProperties(ai, {
+        name: {
+            value: name,
+            writable: false
         },
-        writable: false
-    })
-    return ret;
+        learn: {
+            value: function(fname, func){
+                this[fname] = func;
+                console.log(`${this.name} has learned how to ${fname}.`);
+                return this;
+            },
+            writable: false
+        }
+    });
+    
+    return ai;
 }
 const greet = function() {
     console.log(`${this.name}: Oh hello again!.`);
     return this;
 }
 const add = function(...args){
-    let total = args.reduce((a, b)=> { return a + b; });
-    console.log(`${this.name}: Adding up ${args} gives me ${total}.`);
+    let total = args.reduce((a,b)=> a + b);
+    let modargs = args.join('+');
+    console.log(`${this.name}: Adding up ${modargs} gives me ${total}.`);
     return this;
 }
 const teach = function(student) {
     Object.getOwnPropertyNames(this).forEach(i=>{
         if (i !== `name`){
-            student.learn(i, this[i])
+            console.log(`${this.name} is teaching ${student.name} how to ${i}.`)
+            student.learn(i, this[i]);
         }
     });
     return this;
+}
+
+const forget = function(fn){
+    delete this[fn];
+    console.log(`${this.name} has forgotten how to ${fn}.`);
 }
 
 const test = function(testnum){
@@ -38,18 +50,17 @@ const test = function(testnum){
     return this;
 }
 
-//testing the api
+//testing general application of knowledge
 let betsy = AI('Betsy');
 betsy.learn(`greet`, greet).learn(`add`, add).learn(`teach`, teach);
 betsy.greet();
 betsy.learn(`teach`, teach);
 betsy.add(2, 2, 3);
 let albert = AI('Albert');
-betsy.teach(albert)
-albert.greet();
-albert.add(1,1,2,1,4)
+betsy.teach(albert);
+albert.add(1,1,2,1,-4);
 
-//testing that .learn is immutable
+//testing that learn and name are immutable
 albert.learn(`test`, test);
 albert.test(1);
 albert.learn = function(){ 'this is just a test' }();
@@ -61,3 +72,13 @@ albert.learn = null;
 albert.test(4);
 delete albert.learn;
 albert.test(5);
+albert.name = 'Al';
+albert.test(6);
+
+//testing that a previously learned trait can be removed
+console.log(`Albert before a mutable function is removed: \n`, albert)
+delete albert.deleteme;
+console.log(`Albert after a mutable function (deleteme) is removed: \n`, albert)
+albert.learn(`forget`, forget);
+albert.forget(`test`);
+console.log(albert);
