@@ -1,0 +1,35 @@
+{
+  "name": "gnostic",
+  "quokka": {
+    "babel": true
+  },
+  "version": "0.0.0",
+  "description": "A bot program to create and impart knowledge to bots.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simon-kyger/gnostic.js.git"
+  },
+  "keywords": [
+    "ai",
+    "knowledge",
+    "bots",
+    "gnostic",
+    "gnosticism",
+    "gnosis"
+  ],
+  "author": "Simon Kyger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simon-kyger/gnostic.js/issues"
+  },
+  "homepage": "https://github.com/simon-kyger/gnostic.js#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "quokka": "0.0.7"
+  }
+}
