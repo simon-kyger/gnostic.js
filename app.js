@@ -1,8 +1,6 @@
 const AI = (name)=>{
     console.log(`${name}: Hello, my name is ${name}.  Thank you for creating me!`);
-    //mutable states
     let ai = {};
-
     Object.defineProperties(ai, {
         name: {
             value: name,
@@ -17,19 +15,21 @@ const AI = (name)=>{
             writable: false
         }
     });
-    
     return ai;
 }
+
 const greet = function() {
     console.log(`${this.name}: Oh hello again!.`);
     return this;
 }
+
 const add = function(...args){
     let total = args.reduce((a,b)=> a + b);
     let modargs = args.join('+');
     console.log(`${this.name}: Adding up ${modargs} gives me ${total}.`);
     return this;
 }
+
 const teach = function(student) {
     Object.getOwnPropertyNames(this).forEach(i=>{
         if (i !== `name`){
