@@ -16,7 +16,7 @@ const AI = (name)=>{
     return ret;
 }
 const greet = function() {
-    console.log(`${this.name}: Hello my name is ${this.name}.`);
+    console.log(`${this.name}: Oh hello again!.`);
     return this;
 }
 const add = function(...args){
