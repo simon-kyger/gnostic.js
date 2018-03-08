@@ -34,13 +34,12 @@ const teach = function(student) {
     return this;
 }
 
-const test = function(){
-    console.log(`${this.name}: Just making sure you couldnt stop me from learning.`);
+const test = function(testnum){
+    console.log(`${this.name}: Test deletion ${testnum}`);
     return this;
 }
 
 //testing the api
-
 let betsy = AI('Betsy');
 betsy.learn(`greet`, greet).learn(`add`, add).learn(`teach`, teach);
 betsy.greet();
@@ -50,6 +49,16 @@ let albert = AI('Albert');
 betsy.teach(albert)
 albert.greet();
 albert.add(1,1,2,1,4)
-albert.learn = null; //testing that learn is unable to be reassigned
+
+//testing that .learn is immutable
 albert.learn(`test`, test);
-albert.test();
+albert.test(1);
+albert.learn = function(){ 'this is just a test' }();
+albert.test(2);
+albert.learn(`deleteme`, function(){ delete this; });
+albert.deleteme();
+albert.test(3);
+albert.learn = null;
+albert.test(4);
+delete albert.learn;
+albert.test(5);
