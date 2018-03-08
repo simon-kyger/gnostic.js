@@ -25,7 +25,6 @@ const add = function(...args){
     return this;
 }
 const teach = function(student) {
-    let oname = student.name;
     Object.getOwnPropertyNames(this).forEach(i=>{
         if (i !== `name`){
             student.learn(i, this[i])
