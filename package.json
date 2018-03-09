@@ -30,6 +30,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
-    "quokka": "0.0.7"
+    "quokka": "0.0.7",
+    "sentiment": "^4.2.0"
   }
 }

@@ -1,3 +1,5 @@
+const sentiment = require('sentiment');
+
 const AI = (name)=>{
     console.log(`${name}: Hello, my name is ${name}.  Thank you for creating me!`);
     let ai = {};
@@ -51,6 +53,29 @@ const test = function(testnum){
     return this;
 }
 
+const listen = function(arg, source){
+    if (!this.feelings){
+        this.feelings = {};
+    }
+    if (!source)
+        source = `Creator`;
+    this.feelings[source] = sentiment(arg);
+    return this;
+}
+
+const feel = function(arg){
+    if (!this.feelings[arg] || (Math.abs(this.feelings[arg].score) < 1)){
+        console.log(`I don't really have any feelings towards ${arg}`);
+        return this;
+    }
+    if (this.feelings[arg].score > 1){
+        console.log(`I like ${arg}.`);
+    } else if (this.feelings[arg].score < -1){
+        console.log(`I don't much care for ${arg}.`);
+    }
+    return this;
+}
+
 //testing general application of knowledge
 let betsy = AI('Betsy');
 betsy.learn(`greet`, greet).learn(`add`, add).learn(`teach`, teach);
@@ -83,3 +108,11 @@ console.log(`Albert after a mutable function (deleteme) is removed: \n`, albert)
 albert.learn(`forget`, forget);
 albert.forget(`test`);
 console.log(albert);
+
+//listening and feeling
+albert.learn(`listen`, listen);
+albert.learn(`feel`, feel);
+albert.listen(`I don't like you.`);
+albert.feel(`Creator`);
+albert.feel(`Betsy`);
+
